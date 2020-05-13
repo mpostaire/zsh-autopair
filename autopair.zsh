@@ -190,6 +190,12 @@ autopair-delete() {
     zle ${AUTOPAIR_BKSPC_WIDGET:-backward-delete-char}
 }
 
+autopair-delete-word() {
+    _ap-can-delete-p && RBUFFER=${RBUFFER:1}
+    zle ${AUTOPAIR_BKSPC_WIDGET:-backward-delete-char}
+    zle backward-kill-word
+}
+
 
 ### Initialization #####################
 
@@ -197,6 +203,7 @@ autopair-init() {
     zle -N autopair-insert
     zle -N autopair-close
     zle -N autopair-delete
+    zle -N autopair-delete-word
 
     local p
     for p in ${(@k)AUTOPAIR_PAIRS}; do
@@ -211,8 +218,8 @@ autopair-init() {
     done
 
     bindkey "^?" autopair-delete
-    bindkey "^h" autopair-delete
+    bindkey "^H" autopair-delete-word
     bindkey -M isearch "^?" backward-delete-char
-    bindkey -M isearch "^h" backward-delete-char
+    bindkey -M isearch "^H" backward-kill-word
 }
 [[ -n $AUTOPAIR_INHIBIT_INIT ]] || autopair-init
