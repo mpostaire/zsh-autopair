@@ -4,6 +4,7 @@ AUTOPAIR_INHIBIT_INIT=${AUTOPAIR_INHIBIT_INIT:-}
 AUTOPAIR_BETWEEN_WHITESPACE=${AUTOPAIR_BETWEEN_WHITESPACE:-}
 AUTOPAIR_SPC_WIDGET=${AUTOPAIR_SPC_WIDGET:-"$(bindkey " " | cut -c5-)"}
 AUTOPAIR_BKSPC_WIDGET=${AUTOPAIR_BKSPC_WIDGET:-"$(bindkey "^?" | cut -c6-)"}
+AUTOPAIR_CTRL_BKSPC_WIDGET=${AUTOPAIR_CTRL_BKSPC_WIDGET:-"$(bindkey "^H" | cut -c6-)"}
 
 typeset -gA AUTOPAIR_PAIRS
 AUTOPAIR_PAIRS=('`' '`' "'" "'" '"' '"' '{' '}' '[' ']' '(' ')' ' ' ' ')
@@ -192,8 +193,7 @@ autopair-delete() {
 
 autopair-delete-word() {
     _ap-can-delete-p && RBUFFER=${RBUFFER:1}
-    zle ${AUTOPAIR_BKSPC_WIDGET:-backward-delete-char}
-    zle backward-kill-word
+    zle ${AUTOPAIR_CTRL_BKSPC_WIDGET:-backward-kill-word}
 }
 
 
